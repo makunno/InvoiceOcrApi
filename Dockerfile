@@ -1,16 +1,16 @@
-# Use official .NET SDK image to build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
-# Copy and restore dependencies
-COPY *.csproj ./
-RUN dotnet restore
+# Copy csproj and restore it
+COPY InvoiceOcrApi/InvoiceOcrApi.csproj ./InvoiceOcrApi/
+RUN dotnet restore InvoiceOcrApi/InvoiceOcrApi.csproj
 
-# Copy everything else and build
-COPY . ./
-RUN dotnet publish -c Release -o out
+# Copy everything else
+COPY InvoiceOcrApi/. ./InvoiceOcrApi
 
-# Build runtime image
+# Build and publish
+RUN dotnet publish InvoiceOcrApi/InvoiceOcrApi.csproj -c Release -o out
+
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
 COPY --from=build-env /app/out .
