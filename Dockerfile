@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
 # Copy csproj and restore dependencies
-COPY InvoiceOCR.Api.csproj ./
+COPY InvoiceOcrApi/InvoiceOCR.Api.csproj ./
 RUN dotnet restore
 
 # Copy entire project (all files) and build
